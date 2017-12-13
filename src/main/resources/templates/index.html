@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+	    <th:block th:include="script :: headerFragment" th:with="title='公告'"/>
+	</head>
+	<body th:fragment="bodyFragment">
+		<div class="container">
+			<div class="row form-inline">
+				<a class="btn btn-default" th:href="@{/}">公告列表</a>
+				<a class="btn btn-default" th:href="@{/edit}">新增公告</a>
+				<input type="text" id="keyword" class="form-control" style="width:300px;" placeholder="请输入关键字" />
+				<a class="btn btn-default" id="btnSearch">搜索</a>
+			</div>
+		</div>
+		<hr/>
+	</body>
+</html>
