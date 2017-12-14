@@ -6,6 +6,7 @@ if (id!=''){
 	$.post($.kbase.ctx + '/notice/loadData?id=' + id, function(data){
 		$('#title').val(data.title);
 		$('#content').val(data.content);
+		$('#words').val(data.words);
 	}, 'json');
 }
 
@@ -21,7 +22,8 @@ $('#btnSave').click(function(){
 		
 	var param = {
 		'title': $('#title').val(),
-		'content': $('#content').val()
+		'content': $('#content').val(),
+		'words': $('#words').val()
 	}
 	if (id!=''){
 		param['id'] = id;
@@ -40,3 +42,10 @@ $('#btnSave').click(function(){
 		}
 	});
 });
+
+$('#content').on('change', function(){
+	var _this = this;
+	$.post($.kbase.ctx + '/notice/extractKeyword', {content: $(_this).val()}, function(data){
+		$('#words').val(data);
+	}, 'text');
+})

@@ -3,11 +3,18 @@
  */
 package com.eastrobot.service;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.solr.core.query.SolrPageRequest;
+import org.springframework.data.solr.core.query.result.HighlightPage;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.eastrobot.model.SolrNotice;
@@ -25,9 +32,17 @@ public class NoticeServiceTests {
 	private NoticeService noticeService;
 	
 	@Test
-	public void findAll(){
+	public void testfindAll(){
 		Iterable<SolrNotice> list = noticeService.findAll();
 		list.forEach(notice -> {System.out.println(notice.getTitle());});
 	}
 	
+	@Test
+	public void testHighlight(){
+		Pageable pageable = new SolrPageRequest(0, 15);
+		List<SolrNotice> list = noticeService.findByKeyword("我", pageable);
+		for (SolrNotice solrNotice : list){
+			System.out.println(solrNotice.getTitle() + " -> " + solrNotice.getContent());
+		}
+	}
 }

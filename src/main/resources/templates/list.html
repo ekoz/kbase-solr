@@ -21,10 +21,10 @@
 			<script id="templateList" type="text/html">
 				{{each $data item index}}
 					<tr>
-						<td>{{item.title}}</td>
-						<td>{{item.content}}</td>
+						<td>{{#item.title}}</td>
+						<td>{{#item.content}}</td>
 						<td>{{item.createDate}}</td>
-						<td>{{item.editDate}}</td>
+						<td>{{item.modifyDate}}</td>
 						<td>
 							<button class="btn btn-default btn-sm btn-edit" _id="{{item.id}}">编辑</button>
 							<button class="btn btn-default btn-sm btn-del" _id="{{item.id}}">删除</button>

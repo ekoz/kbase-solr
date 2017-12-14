@@ -1,4 +1,12 @@
+html{
+	width:100%;
+	height:100%;
+	overflow-x:hidden;
+}
 body{
 	margin: 3px;
 	font-size: 12px;
+}
+b.highlight{
+	color: #FF0000;
 }

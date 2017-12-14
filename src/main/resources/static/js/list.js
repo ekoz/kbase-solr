@@ -1,6 +1,19 @@
 //加载数据，暂时不考虑分页
 $.post($.kbase.ctx + '/notice/loadList', function(data){
-	$('#list').append(template('templateList', data.content));
+	var arr = [];
+	var date = new Date();
+	$(data.content).each(function(i, item){
+		if (item.createDate!=''){
+			date.setTime(item.createDate);
+			item.createDate = dateFns.format(date, 'YYYY-MM-DD HH:mm')
+		}
+		if (item.modifyDate!=''){
+			date.setTime(item.modifyDate);
+			item.modifyDate = dateFns.format(date, 'YYYY-MM-DD HH:mm')
+		}
+		arr.push(item);
+	});
+	$('#list').append(template('templateList', arr));
 }, 'json');
 
 //编辑
@@ -34,10 +47,22 @@ $('#btnSearch').click(function(){
 	
 	$.post($.kbase.ctx + '/notice/loadList', {keyword: $('#keyword').val()}, function(data){
 		if (data.content){
-			$('#list').html(template('templateList', data.content));
-		}else{
-			$('#list').html(template('templateList', data));
+			data = data.content
 		}
+		var arr = [];
+		var date = new Date();
+		$(data).each(function(i, item){
+			if (item.createDate!=''){
+				date.setTime(item.createDate);
+				item.createDate = dateFns.format(date, 'YYYY-MM-DD HH:mm')
+			}
+			if (item.modifyDate!=''){
+				date.setTime(item.modifyDate);
+				item.modifyDate = dateFns.format(date, 'YYYY-MM-DD HH:mm')
+			}
+			arr.push(item);
+		});
+		$('#list').html(template('templateList', arr));
 	}, 'json');	
 	
 });

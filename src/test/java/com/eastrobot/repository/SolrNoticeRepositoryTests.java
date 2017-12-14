@@ -11,6 +11,12 @@ import javax.annotation.Resource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.solr.core.query.SolrPageRequest;
+import org.springframework.data.solr.core.query.result.HighlightEntry.Highlight;
+import org.springframework.data.solr.core.query.result.HighlightPage;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.eastrobot.model.Notice;
@@ -49,9 +55,25 @@ public class SolrNoticeRepositoryTests {
 //		list = solrNoticeRepository.findByTitleAndContent("达成买断协议", "马戏城");
 //		list = solrNoticeRepository.findByTitle("上海");
 //		list = solrNoticeRepository.findByContent("上海");
-		list = solrNoticeRepository.findByTitleOrContent("达成买断协议", "蓝天和白云");
+		
+		Pageable pageable = new SolrPageRequest(10, 15);
+		list = solrNoticeRepository.findByTitleOrContentOrContentPinyin("wo", "wo", "wo", pageable);
 		
 		list.forEach(notice -> {System.out.println(notice.getTitle() + "\r\n" + notice.getContent() + "\r\n-----");});
+	}
+	
+	@Test
+	public void testQueryHighlight(){
+		Pageable pageable = new SolrPageRequest(0, 15);
+		HighlightPage<SolrNotice> pager = solrNoticeRepository.findByTitleOrContentOrContentPinyin("我", "我", "我", pageable);
+		List<SolrNotice> list = pager.getContent();
+		for (SolrNotice solrNotice : list){
+			List<Highlight> highlightList = pager.getHighlights(solrNotice);
+			for (Highlight highlight : highlightList){
+				System.out.println(highlight.getField().getName() + " -> " + highlight.getSnipplets().toArray(new String[highlight.getSnipplets().size()])[0]);
+			}
+		}
+		
 	}
 	
 	@Test

@@ -4,7 +4,7 @@
 package com.eastrobot.model;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -26,8 +26,8 @@ public class Notice implements Serializable {
 	private String id;
 	private String title;
 	private String content;
-	private String keyword;
-	private Timestamp createDate;
-	private Timestamp modifyDate;
+	private String words;
+	private Date createDate;
+	private Date modifyDate;
 	
 }
