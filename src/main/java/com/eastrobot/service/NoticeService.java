@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.solr.client.solrj.SolrServerException;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.eastrobot.model.Notice;
@@ -21,7 +22,12 @@ public interface NoticeService {
 
 	public void save(Notice notice);
 	
-	public Iterable<SolrNotice> findAll();
+	/**
+	 * 加载公告数据
+	 * @author eko.zhan at 2018年3月16日 下午3:11:06
+	 * @return
+	 */
+	public Page<SolrNotice> findAll(Pageable pageable);
 
 	public List<SolrNotice> findByKeyword(String keyword, Pageable pageable);
 

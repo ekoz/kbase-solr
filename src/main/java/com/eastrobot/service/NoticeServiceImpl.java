@@ -17,6 +17,7 @@ import org.apache.solr.client.solrj.response.AnalysisResponseBase.AnalysisPhase;
 import org.apache.solr.client.solrj.response.AnalysisResponseBase.TokenInfo;
 import org.apache.solr.client.solrj.response.FieldAnalysisResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.solr.core.query.result.HighlightEntry.Highlight;
 import org.springframework.data.solr.core.query.result.HighlightPage;
@@ -51,8 +52,8 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
-	public Iterable<SolrNotice> findAll() {
-		return solrNoticeRepository.findAll();
+	public Page<SolrNotice> findAll(Pageable pageable) {
+		return solrNoticeRepository.findAll(pageable);
 	}
 
 	@Override

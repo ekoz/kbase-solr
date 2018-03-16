@@ -39,9 +39,9 @@ public class NoticeController extends BaseController {
 	private NoticeService noticeService;
 	
 	@PostMapping("loadList")
-	public Iterable<SolrNotice> loadList(@RequestParam(value="keyword", required=false) String keyword, @PageableDefault(value=15, sort={"createDate_dt"}, direction=Direction.DESC) Pageable pageable) throws SolrServerException, IOException{
+	public Iterable<SolrNotice> loadList(@RequestParam(value="keyword", required=false) String keyword, @PageableDefault(value=10, sort={"createDate_dt"}, direction=Direction.DESC) Pageable pageable) throws SolrServerException, IOException{
 		if (keyword==null){
-			return noticeService.findAll();
+			return noticeService.findAll(pageable);
 		}
 		return noticeService.findByKeyword(keyword, pageable);
 	}

@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.solr.core.query.SolrPageRequest;
 import org.springframework.data.solr.core.query.result.HighlightPage;
@@ -33,8 +34,12 @@ public class NoticeServiceTests {
 	
 	@Test
 	public void testfindAll(){
-		Iterable<SolrNotice> list = noticeService.findAll();
-		list.forEach(notice -> {System.out.println(notice.getTitle());});
+		Sort sort = new Sort(Direction.DESC, "createDate_dt");
+		Pageable page = new SolrPageRequest(0, 10, sort);
+		Iterable<SolrNotice> list = noticeService.findAll(page);
+		list.forEach(notice -> {
+			System.out.println(notice.getTitle() + " " + notice.getCreateDate());
+		});
 	}
 	
 	@Test
