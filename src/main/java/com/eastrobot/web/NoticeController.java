@@ -10,6 +10,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.solr.client.solrj.SolrServerException;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
@@ -39,7 +40,7 @@ public class NoticeController extends BaseController {
 	private NoticeService noticeService;
 	
 	@PostMapping("loadList")
-	public Iterable<SolrNotice> loadList(@RequestParam(value="keyword", required=false) String keyword, @PageableDefault(value=10, sort={"createDate_dt"}, direction=Direction.DESC) Pageable pageable) throws SolrServerException, IOException{
+	public Page<SolrNotice> loadList(@RequestParam(value="keyword", required=false) String keyword, @PageableDefault(value=10, sort={"createDate_dt"}, direction=Direction.DESC) Pageable pageable) throws SolrServerException, IOException{
 		if (keyword==null){
 			return noticeService.findAll(pageable);
 		}

@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -45,8 +46,8 @@ public class NoticeServiceTests {
 	@Test
 	public void testHighlight(){
 		Pageable pageable = new SolrPageRequest(0, 15);
-		List<SolrNotice> list = noticeService.findByKeyword("我", pageable);
-		for (SolrNotice solrNotice : list){
+		Page<SolrNotice> page = noticeService.findByKeyword("我", pageable);
+		for (SolrNotice solrNotice : page.getContent()){
 			System.out.println(solrNotice.getTitle() + " -> " + solrNotice.getContent());
 		}
 	}

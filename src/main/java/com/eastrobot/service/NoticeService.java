@@ -29,7 +29,7 @@ public interface NoticeService {
 	 */
 	public Page<SolrNotice> findAll(Pageable pageable);
 
-	public List<SolrNotice> findByKeyword(String keyword, Pageable pageable);
+	public Page<SolrNotice> findByKeyword(String keyword, Pageable pageable);
 
 	public void delete(String id);
 

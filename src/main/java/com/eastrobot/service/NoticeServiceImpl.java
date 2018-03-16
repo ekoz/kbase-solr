@@ -57,7 +57,7 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
-	public List<SolrNotice> findByKeyword(String keyword, Pageable pageable) {
+	public Page<SolrNotice> findByKeyword(String keyword, Pageable pageable) {
 		String title = keyword;
 		String content = keyword;
 		String contentPinyin = keyword;
@@ -76,7 +76,7 @@ public class NoticeServiceImpl implements NoticeService {
 			}
 		}
 		
-		return list;
+		return pager;
 	}
 
 	@Transactional
