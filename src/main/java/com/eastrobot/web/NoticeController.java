@@ -4,7 +4,6 @@
 package com.eastrobot.web;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -13,16 +12,15 @@ import javax.annotation.Resource;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.solr.core.query.result.HighlightPage;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.eastrobot.config.BaseController;
 import com.eastrobot.model.Notice;
 import com.eastrobot.model.SolrNotice;
 import com.eastrobot.service.NoticeService;
@@ -35,7 +33,7 @@ import com.hankcs.hanlp.HanLP;
  */
 @RequestMapping("notice")
 @RestController
-public class NoticeController {
+public class NoticeController extends BaseController {
 
 	@Resource
 	private NoticeService noticeService;
