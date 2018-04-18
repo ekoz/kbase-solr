@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -55,7 +56,7 @@ public class NoticeController extends BaseController {
 	public JSONObject loadList(@RequestParam(value="keyword", required=false) String keyword, Integer page, Integer limit) throws SolrServerException, IOException{
 		Page<SolrNotice> result = null;
 		Pageable pageable = new SolrPageRequest(page-1, limit, Direction.DESC, "createDate_dt");
-		if (keyword==null){
+		if (StringUtils.isBlank(keyword)){
 			result = noticeService.findAll(pageable);
 		}else{
 			result = noticeService.findByKeyword(keyword, pageable);

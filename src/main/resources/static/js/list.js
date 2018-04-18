@@ -112,6 +112,16 @@ $('#btnQuery').click(function(){
 		$('#keyword').focus();
 		return false;
 	}
+	$('#btnClear').show();
+	layui.use(['layer', 'table'], function(){
+		var layer = layui.layer;
+		var table = layui.table;
+		table.reload('grid', {page: {curr: 1}, where: {keyword: $('#keyword').val().trim()}});
+	});
+});
+$('#btnClear').click(function(){
+	$('#keyword').val('');
+	$('#btnClear').hide();
 	layui.use(['layer', 'table'], function(){
 		var layer = layui.layer;
 		var table = layui.table;
