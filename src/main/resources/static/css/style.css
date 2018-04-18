@@ -4,9 +4,17 @@ html{
 	overflow-x:hidden;
 }
 body{
-	margin: 3px;
+	padding: 3px;
 	font-size: 12px;
 }
 b.highlight{
 	color: #FF0000;
+}
+.panel{
+	padding: 3px;
+	width: 500px;
+	height: 300px;
+}
+.layui-btn+.layui-btn{
+	margin-left: 0;
 }

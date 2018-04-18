@@ -23,6 +23,7 @@ import org.springframework.data.solr.core.query.result.HighlightEntry.Highlight;
 import org.springframework.data.solr.core.query.result.HighlightPage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import com.eastrobot.model.Notice;
 import com.eastrobot.model.SolrNotice;
@@ -82,9 +83,9 @@ public class NoticeServiceImpl implements NoticeService {
 	@Transactional
 	@Override
 	public void delete(String id) {
+		Assert.notNull(id, "参数 id 不能为空");
 		noticeRepository.delete(id);
 		solrNoticeRepository.delete(id);
-		
 	}
 
 	@Override

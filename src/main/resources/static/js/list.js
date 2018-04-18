@@ -1,68 +1,120 @@
-//加载数据，暂时不考虑分页
-$.post($.kbase.ctx + '/notice/loadList', function(data){
-	var arr = [];
-	var date = new Date();
-	$(data.content).each(function(i, item){
-		if (item.createDate!=''){
-			date.setTime(item.createDate);
-			item.createDate = dateFns.format(date, 'YYYY-MM-DD HH:mm')
-		}
-		if (item.modifyDate!=''){
-			date.setTime(item.modifyDate);
-			item.modifyDate = dateFns.format(date, 'YYYY-MM-DD HH:mm')
-		}
-		arr.push(item);
+layui.use('table', function(){
+	var table = layui.table;
+
+	table.render({
+		id: 'grid',
+		elem: '#grid',
+		url: $.kbase.ctx + '/notice/loadList',
+		cellMinWidth: 100,
+		method: 'get',
+		response: {
+			countName: 'totalElements', //数据总数的字段名称，默认：count
+			dataName: 'content' //数据列表的字段名称，默认：data
+		},
+		cols: [[
+	        {type:'checkbox'},
+	        {field:'title', title: '标题', width: 300},
+	        {field:'content', title: '摘要'},
+	        {field:'createDate', title: '创建日期', templet: function(record){
+	        	return dateFns.format(record.createDate, 'YYYY-MM-DD HH:mm');
+	        }, width: 160},
+	        {field:'modifyDate', title: '修改日期', templet: function(record){
+	        	return dateFns.format(record.modifyDate, 'YYYY-MM-DD HH:mm');
+	        }, width: 160},
+	        {align:'center', toolbar: '#toolbar', width: 160}
+	    ]],
+	    page: true
 	});
-	$('#list').append(template('templateList', arr));
-}, 'json');
-
-//编辑
-$('#list').on('click', '.btn-edit', function(){
-	var id = $(this).attr('_id');
-	location.href = $.kbase.ctx + '/edit?id=' + id;
+	
+	table.on('tool(grid)', function(obj){
+		var data = obj.data;
+		if(obj.event === 'del'){
+			layer.confirm('确认删除吗', function(index){
+				$.post($.kbase.ctx + '/notice/delete', {id: data.id}, function(data){
+					obj.del();
+					layer.close(index);
+				}, 'json');
+			});
+		} else if(obj.event === 'edit'){
+			$('#id').val(data.id);
+			$('#title').val(data.title);
+			$('#content').val(data.content);
+			$('#words').val(data.words);
+			openForm();
+		}
+	});
 });
 
-//删除
-$('#list').on('click', '.btn-del', function(){
+$('#btnAdd').click(function(){
 	var _this = this;
-	var id = $(this).attr('_id');
-	if (window.confirm('确定删除吗')){
-		$.post($.kbase.ctx + '/notice/delete', {id: id}, function(data){
-			$(_this).parent('td').parent('tr').remove();
-		});
-	}
+	$('#id').val('');
+	$('#title').val('');
+	$('#content').val('');
+	$('#words').val('');
+	
+	openForm();
 });
 
-//搜索
+/**
+ * 新增或编辑
+ */
+function openForm(){
+	layui.use(['layer', 'table'], function(){
+		var layer = layui.layer;
+		var table = layui.table;
+		
+		layer.open({
+			type: 1,
+			btn: ['保存'],
+			area: ['auto', 'auto'],
+			content: $('.panel'),
+			yes: function(index, layero){
+				var param = {
+					title: $('#title').val(),
+					content: $('#content').val(),
+					words: $('#words').val()
+				}
+				if (param.title.trim()==''){
+					$('#title').focus();
+					return false;
+				}else if (param.content.trim()==''){
+					$('#content').focus();
+					return false;
+				}
+				//注意：后台采用 @RequestBody 接收，这里一定要指定 dataType 和 contentType 否则会报 415异常
+				//http://www.cnblogs.com/quanyongan/archive/2013/04/16/3024741.html
+				$.ajax({
+					type : 'POST',
+					url : $.kbase.ctx + '/notice/save',
+					dataType : 'json',
+					contentType : 'application/json',
+					data : JSON.stringify(param),
+					success : function(data) {
+						layer.alert(data.title + '保存成功', function(){
+							table.reload('grid', {page: {curr: 1}});
+							layer.closeAll();
+						});
+					}
+				});
+			}
+		});
+	});
+}
+
+////搜索
 $('#keyword').keyup(function(e){
 	if (e.keyCode=='13'){
-		$('#btnSearch').click();
+		$('#btnQuery').click();
 	}
 });
-$('#btnSearch').click(function(){
-	if ($('#keyword').val()==''){
+$('#btnQuery').click(function(){
+	if ($('#keyword').val().trim()==''){
 		$('#keyword').focus();
 		return false;
 	}
-	
-	$.post($.kbase.ctx + '/notice/loadList', {keyword: $('#keyword').val()}, function(data){
-		if (data.content){
-			data = data.content
-		}
-		var arr = [];
-		var date = new Date();
-		$(data).each(function(i, item){
-			if (item.createDate!=''){
-				date.setTime(item.createDate);
-				item.createDate = dateFns.format(date, 'YYYY-MM-DD HH:mm')
-			}
-			if (item.modifyDate!=''){
-				date.setTime(item.modifyDate);
-				item.modifyDate = dateFns.format(date, 'YYYY-MM-DD HH:mm')
-			}
-			arr.push(item);
-		});
-		$('#list').html(template('templateList', arr));
-	}, 'json');	
-	
+	layui.use(['layer', 'table'], function(){
+		var layer = layui.layer;
+		var table = layui.table;
+		table.reload('grid', {page: {curr: 1}, where: {keyword: $('#keyword').val().trim()}});
+	});
 });

@@ -4,35 +4,50 @@
 	    <th:block th:include="script :: headerFragment" th:with="title='公告列表'"/>
 	</head>
 	<body>
-		<th:block th:include="index :: bodyFragment" />
-		<table align="center" class="table">
-			<thead>
-				<tr>
-					<th width="20%">标题</th>
-					<th width="40%">摘要</th>
-					<th width="10%">创建日期</th>
-					<th width="10%">修改日期</th>
-					<th width="20%">&nbsp;</th>
-				</tr>
-			</thead>
-			<tbody id="list">
-				
-			</tbody>
-			<script id="templateList" type="text/html">
-				{{each $data item index}}
-					<tr>
-						<td>{{#item.title}}</td>
-						<td>{{#item.content}}</td>
-						<td>{{item.createDate}}</td>
-						<td>{{item.modifyDate}}</td>
-						<td>
-							<button class="btn btn-default btn-sm btn-edit" _id="{{item.id}}">编辑</button>
-							<button class="btn btn-default btn-sm btn-del" _id="{{item.id}}">删除</button>
-						</td>
-					</tr>
-				{{/each}}
-			</script>
-		</table>
+		<!-- toolbar -->
+		<div class="zx-btn-group">
+			<button class="layui-btn" id="btnAdd">新增</button>
+	    	<input type="text" id="keyword" name="keyword" class="layui-input" placeholder="请输入关键字" autocomplete="off" style="width:300px; display: inline; margin-top:3px;"/>
+	    	<button class="layui-btn" id="btnQuery">查询</button>
+		</div>
+		<!-- grid -->
+		<table class="layui-hide" id="grid" lay-filter="grid"></table>
+		<!-- form -->
+		<div class="panel" style="display:none;">
+			<div class="layui-form">
+				<input type="hidden" id="id"/>
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label class="layui-form-label">名称</label>
+						<div class="layui-input-inline">
+							<input type="text" id="title" autocomplete="off" class="layui-input" placeholder="名称不能为空"/>
+						</div>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label class="layui-form-label">内容</label>
+						<div class="layui-input-inline">
+							<input type="text" id="content" autocomplete="off" class="layui-input" placeholder="内容不能为空"/>
+						</div>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label class="layui-form-label">摘要</label>
+						<div class="layui-input-inline">
+							<input type="text" id="words" autocomplete="off" class="layui-input"/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- toolbar -->
+		<script type="text/html" id="toolbar">
+			<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+			<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+		</script>
 		
 		<script type="text/javascript" th:src="@{/js/list.js}"></script>
 	</body>
