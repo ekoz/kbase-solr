@@ -13,15 +13,15 @@ layui.use('table', function(){
 		},
 		cols: [[
 	        {type:'checkbox'},
-	        {field:'title', title: '标题', width: 300},
-	        {field:'content', title: '摘要'},
+	        {field:'title', title: '标题', width: 320},
+	        {field:'content', title: '摘要', width: 500},
 	        {field:'createDate', title: '创建日期', templet: function(record){
 	        	return dateFns.format(record.createDate, 'YYYY-MM-DD HH:mm');
 	        }, width: 160},
 	        {field:'modifyDate', title: '修改日期', templet: function(record){
 	        	return dateFns.format(record.modifyDate, 'YYYY-MM-DD HH:mm');
 	        }, width: 160},
-	        {align:'center', toolbar: '#toolbar', width: 160}
+	        {align:'center', toolbar: '#toolbar', width: 140}
 	    ]],
 	    page: true
 	});

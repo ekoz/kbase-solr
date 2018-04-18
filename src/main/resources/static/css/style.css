@@ -12,9 +12,17 @@ b.highlight{
 }
 .panel{
 	padding: 3px;
-	width: 500px;
+	width: 800px;
 	height: 300px;
 }
 .layui-btn+.layui-btn{
 	margin-left: 0;
+}
+.panel .layui-input, .panel .layui-textarea{
+	width: 600px;
+}
+td[data-field="content"] .layui-table-cell{
+	height: auto;
+	text-overflow: none; 
+	white-space: normal;
 }
