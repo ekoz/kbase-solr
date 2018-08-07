@@ -62,7 +62,8 @@ public class NoticeServiceImpl implements NoticeService {
 		String title = keyword;
 		String content = keyword;
 		String contentPinyin = keyword;
-		HighlightPage<SolrNotice> pager = solrNoticeRepository.findByTitleOrContentOrContentPinyin(title, content, contentPinyin, pageable);
+//		HighlightPage<SolrNotice> pager = solrNoticeRepository.findByTitleOrContentOrContentPinyin(title, content, contentPinyin, pageable);
+		HighlightPage<SolrNotice> pager = solrNoticeRepository.findByTitleOrContent(title, content, pageable);
 		
 		List<SolrNotice> list = pager.getContent();
 		for (SolrNotice entity : list){

@@ -4,7 +4,6 @@
 package com.eastrobot.repository;
 
 import java.io.Serializable;
-import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +22,9 @@ public interface SolrNoticeRepository extends SolrCrudRepository<SolrNotice, Ser
 
 	@Highlight(prefix = "<b class=\"highlight\">", postfix = "</b>")
 	public HighlightPage<SolrNotice> findByTitleOrContentOrContentPinyin(String title, String content, String contentPinyin, Pageable pageable);
+	
+	@Highlight(prefix = "<b class=\"highlight\">", postfix = "</b>", fragsize=80)
+	public HighlightPage<SolrNotice> findByTitleOrContent(String title, String content, Pageable pageable);
 	
 	public Iterable<SolrNotice> findByTitle(String title);
 	
