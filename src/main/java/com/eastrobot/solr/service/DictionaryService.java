@@ -19,7 +19,7 @@ public interface DictionaryService {
 	
 	void saveStopwords(String words) throws IOException;
 	
-	void loadSynonyms() throws IOException;
+	String loadSynonyms() throws IOException;
 	
 	void saveSynonyms(String words) throws IOException;
 }

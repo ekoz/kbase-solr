@@ -44,6 +44,7 @@ public class CoreAdminRequestTests {
 				});
 			});
 			System.out.println(coreAdminResponse.getRequestUrl());
+			CoreAdminRequest.reloadCore("notice", solrClient);
 		} catch (SolrServerException | IOException e) {
 			e.printStackTrace();
 		}

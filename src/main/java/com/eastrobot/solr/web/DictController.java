@@ -38,9 +38,27 @@ public class DictController extends BaseController {
 	
 	@PostMapping("/saveStopwords")
 	public void saveStopwords(@RequestParam("data") String data) {
-		System.out.println(data);
 		try {
 			dictionaryService.saveStopwords(data);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@PostMapping("/loadSynonyms")
+	public String loadSynonyms() {
+		try {
+			return dictionaryService.loadSynonyms();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	@PostMapping("/saveSynonyms")
+	public void saveSynonyms(@RequestParam("data") String data) {
+		try {
+			dictionaryService.saveSynonyms(data);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

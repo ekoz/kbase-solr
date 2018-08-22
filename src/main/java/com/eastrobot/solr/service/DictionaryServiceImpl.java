@@ -3,9 +3,11 @@
  */
 package com.eastrobot.solr.service;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -19,8 +21,11 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.impl.DefaultFileMonitor;
+import org.apache.solr.client.solrj.SolrClient;
+import org.apache.solr.client.solrj.request.CoreAdminRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.util.StringUtils;
 
 import com.eastrobot.solr.config.Dictionary;
 
@@ -40,10 +45,14 @@ public class DictionaryServiceImpl implements DictionaryService {
 	
 	@Autowired
 	Dictionary dictionary;
+	@Autowired
+	private SolrClient solrClient;
+	
 	private static FileSystemManager manager = null;
 	private static String stopwordsFilepath = "";
 	private static String synonymsFilepath = "";
 	private static DefaultFileMonitor fileMonitor;
+	private static FileObject folderObject = null;
 	
 	@PostConstruct
 	public void init() {
@@ -55,7 +64,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 			synonymsFilepath = folder + FILENAME_SYNONYMS;
 			stopwordsFilepath = folder + FILENAME_STOPWORDS;
 			
-			FileObject folderObject = manager.resolveFile(folder);
+			folderObject = manager.resolveFile(folder);
 			
 			//启动监听器，监听 folder 下文件的变化
 			if (fileMonitor==null) {
@@ -74,15 +83,16 @@ public class DictionaryServiceImpl implements DictionaryService {
 					@Override
 					public void fileChanged(FileChangeEvent event) throws Exception {
 						FileObject fileObject = event.getFile();
-						//TODO 为什么被修改了的提示语会打印多次？devtools每次重启会增加一次打印，原因待查
+						//TODO 为什么被修改了的提示语会打印多次？ devtools 每次重启会增加一次打印，原因待查
 						log.debug("文件 [" + fileObject.getName() + "] 被修改了");
 						//TODO 如果文件被修改，则要重新 reload notice collection
+						CoreAdminRequest.reloadCore("notice", solrClient);
 					}
 				});
 				fileMonitor.setRecursive(false);
 				fileMonitor.addFile(folderObject);
 			}
-			fileMonitor.start(); 
+			fileMonitor.start();
 		} catch (FileSystemException e) {
 			e.printStackTrace();
 		}
@@ -92,7 +102,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 	public void destroy() {
 		if (fileMonitor!=null) {
 			fileMonitor.stop();
-		} 
+		}
 		log.debug("destroy"); 
 	}
 	
@@ -108,6 +118,10 @@ public class DictionaryServiceImpl implements DictionaryService {
 	@Override
 	public void saveStopwords(String words) throws IOException {
 		if (dictionary.isLocal()) {
+			//空格替换成回车，去重处理，保留顺序
+			String[] wordArr = words.trim().split(" ");
+			List<String> list = Arrays.asList(wordArr).stream().distinct().collect(Collectors.toList());
+			words = StringUtils.join(list, " ");
 			words = words.trim().replaceAll(" ", "\n");
 			FileObject fileObject = manager.resolveFile(stopwordsFilepath);
 			OutputStream out = null;
@@ -123,13 +137,33 @@ public class DictionaryServiceImpl implements DictionaryService {
 	}
 
 	@Override
-	public void loadSynonyms() {
-		
+	public String loadSynonyms() throws IOException {
+		if (dictionary.isLocal()) {
+			FileObject fileObject = manager.resolveFile(synonymsFilepath);
+			return IOUtils.toString(fileObject.getContent().getInputStream(), Charsets.UTF_8);
+		}
+		return null;
 	}
 
 	@Override
-	public void saveSynonyms(String words) {
-		
+	public void saveSynonyms(String words) throws IOException {
+		if (dictionary.isLocal()) {
+			//空格替换成回车，去重处理，保留顺序
+			String[] wordArr = words.trim().split(" ");
+			List<String> list = Arrays.asList(wordArr).stream().distinct().collect(Collectors.toList());
+			words = StringUtils.join(list, " ");
+			words = words.trim().replaceAll(" ", "\n");
+			FileObject fileObject = manager.resolveFile(synonymsFilepath);
+			OutputStream out = null;
+			try {
+				out = fileObject.getContent().getOutputStream();
+				IOUtils.write(words, out, Charsets.UTF_8);
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				IOUtils.closeQuietly(out);
+			}
+		}
 	}
 	
 	
