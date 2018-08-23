@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 	<head>
-	    <th:block th:include="script :: headerFragment" th:with="title='词典管理'"/>
+	    <th:block th:include="script :: headerFragment" th:with="title='词典管理-停用词'"/>
 	</head>
 	<body>
-		<pre id="panel" class="layui-code" lay-title="停顿词" lay-skin="notepad" lay-height="400px"></pre>
+		<pre id="panel" class="layui-code" lay-title="停用词" lay-skin="notepad" lay-height="500px;"></pre>
 		
-		<script type="text/javascript" th:src="@{/dict/stopwords.js}"></script>
+		<script type="text/javascript" th:src="@{/js/dict/stopwords.js}"></script>
 	</body>
 </html>

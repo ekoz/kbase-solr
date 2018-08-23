@@ -13,7 +13,7 @@ $('#panel').on('blur', '.layui-code-ol', function(){
 	if (!fireKeydown) return false;
 	var data = $(this).html().replace(/\<\/?li\>/gi, ' ');
 	data = data.replace(/\s+/g, ' ');
-	console.log(data);
+	console.log(data); 
 	$.post($.kbase.ctx + '/dict/saveSynonyms', {data: data}, function(data){
 		alert(data);
 	}, 'json');

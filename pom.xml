@@ -73,7 +73,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
-			<scope>runtime</scope>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -96,5 +96,8 @@
 		</plugins>
 	</build>
 
-
+	<organization>
+		<name>eko.zhan</name>
+		<url>http://ekozhan.com</url>
+	</organization>
 </project>

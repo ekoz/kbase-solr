@@ -1,11 +1,12 @@
 layui.use('table', function(){
 	var table = layui.table;
-
+	
 	table.render({
 		id: 'grid',
 		elem: '#grid',
 		url: $.kbase.ctx + '/notice/loadList',
 		cellMinWidth: 100,
+		height: 510,
 		method: 'get',
 		response: {
 			countName: 'totalElements', //数据总数的字段名称，默认：count
