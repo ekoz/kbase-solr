@@ -25,9 +25,16 @@
 		<hanlp.version>portable-1.6.3</hanlp.version>
 		<fastjson.version>1.2.44</fastjson.version>
 		<commons.vfs.version>2.2</commons.vfs.version>
+		<spring.boot.admin.version>1.5.7</spring.boot.admin.version>
 	</properties>
 
 	<dependencies>
+		<!-- https://mvnrepository.com/artifact/de.codecentric/spring-boot-admin-starter-client -->
+		<dependency>
+		    <groupId>de.codecentric</groupId>
+		    <artifactId>spring-boot-admin-starter-client</artifactId>
+		    <version>${spring.boot.admin.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-mongodb</artifactId>
