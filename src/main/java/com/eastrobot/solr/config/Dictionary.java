@@ -4,6 +4,9 @@
 package com.eastrobot.solr.config;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.vfs2.FileSystemConfigBuilder;
+import org.apache.commons.vfs2.provider.ftp.FtpFileSystemConfigBuilder;
+import org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -60,6 +63,36 @@ public class Dictionary {
 	 */
 	public Boolean isFtp() {
 		return TYPE_FTP.equalsIgnoreCase(getType());
+	}
+	
+	/**
+	 * 
+	 * @author eko.zhan at 2018年8月25日 下午5:29:51
+	 * @return
+	 */
+	public FileSystemConfigBuilder getInstance() {
+		if (isFtp()) {
+			return FtpFileSystemConfigBuilder.getInstance();
+		} else if (isSftp()) {
+			return SftpFileSystemConfigBuilder.getInstance();
+		}
+		return null;
+	}
+	
+	/**
+	 * 返回 baseUrl
+	 * ftp: ftp://myusername:mypassword@somehost:someport/pub
+	 * @author eko.zhan at 2018年8月25日 下午2:32:34
+	 * @return
+	 */
+	public String getBaseUrl() {
+		if (isLocal()) {
+			String folder = getFolder();
+			return folder.replaceAll("\\\\", "/");
+		}else if (isFtp()) {
+			return "ftp://" + getUsername() + ":" + getPassword() + "@" + getHost() + ":" + getPort() + getFolder();
+		}
+		return "";
 	}
 	
 }

@@ -26,6 +26,8 @@
 		<fastjson.version>1.2.44</fastjson.version>
 		<commons.vfs.version>2.2</commons.vfs.version>
 		<spring.boot.admin.version>1.5.7</spring.boot.admin.version>
+		<commons.httpclient.version>3.1</commons.httpclient.version>
+		<commons.net.version>3.6</commons.net.version>
 	</properties>
 
 	<dependencies>
@@ -74,6 +76,20 @@
 		    <artifactId>commons-vfs2</artifactId>
 		    <version>${commons.vfs.version}</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-httpclient/commons-httpclient -->
+		<dependency>
+		    <groupId>commons-httpclient</groupId>
+		    <artifactId>commons-httpclient</artifactId>
+		    <version>${commons.httpclient.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-net/commons-net -->
+		<dependency>
+		    <groupId>commons-net</groupId>
+		    <artifactId>commons-net</artifactId>
+		    <version>${commons.net.version}</version>
+		</dependency>
+		
+
 		
 
 
