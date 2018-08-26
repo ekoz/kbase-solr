@@ -1,7 +1,7 @@
 /*
  * Power by www.xiaoi.com
  */
-package com.eastrobot.solr.service;
+package com.eastrobot.solr.util;
 /**
  * @author <a href="mailto:eko.z@outlook.com">eko.zhan</a>
  * @date 2018年8月25日 下午4:40:28
