@@ -91,6 +91,8 @@ public class Dictionary {
 			return folder.replaceAll("\\\\", "/");
 		}else if (isFtp()) {
 			return "ftp://" + getUsername() + ":" + getPassword() + "@" + getHost() + ":" + getPort() + getFolder();
+		}else if (isSftp()) {
+			return "sftp://" + getUsername() + ":" + getPassword() + "@" + getHost() + ":" + getPort() + getFolder();
 		}
 		return "";
 	}

@@ -62,7 +62,8 @@ public class SshdServer {
         }
         
         //设置虚拟根路径
-		VirtualFileSystemFactory fileSystemFactory = new VirtualFileSystemFactory(Paths.get("E:\\lucene\\sshd\\apache-sshd-2.0.0\\res\\home"));
+//		VirtualFileSystemFactory fileSystemFactory = new VirtualFileSystemFactory(Paths.get("E:\\lucene\\sshd\\apache-sshd-2.0.0\\res\\home"));
+        VirtualFileSystemFactory fileSystemFactory = new VirtualFileSystemFactory(Paths.get("E:\\AI\\NLP\\solr"));
 		sshd.setFileSystemFactory(fileSystemFactory);
 		
 		sshd.start();
