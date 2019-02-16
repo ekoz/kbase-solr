@@ -21,7 +21,11 @@ b.highlight{
 .panel .layui-input, .panel .layui-textarea{
 	width: 600px;
 }
-td[data-field="content"] .layui-table-cell{
+.panel .layui-textarea{
+	height: 180px;
+}
+
+td[data-field="title"] .layui-table-cell, td[data-field="content"] .layui-table-cell{
 	height: auto;
 	text-overflow: none; 
 	white-space: normal;

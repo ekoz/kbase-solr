@@ -103,8 +103,10 @@ public class NoticeServiceImpl implements NoticeService {
 		for (Notice notice : noticeList){
 			list.add(transfer(notice));
 		}
-		
-		solrNoticeRepository.save(list);
+
+		if (list!=null && list.size()>0){
+			solrNoticeRepository.save(list);
+		}
 	}
 
 	private SolrNotice transfer(Notice notice){
