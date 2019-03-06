@@ -1,13 +1,14 @@
 /*
  * Power by www.xiaoi.com
  */
-package com.eastrobot.solr.service;
+package com.eastrobot.solr.service.impl;
 
 import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Resource;
 
+import com.eastrobot.solr.service.SolrGovMailService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.request.CoreAdminRequest;
